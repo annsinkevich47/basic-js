@@ -17,7 +17,7 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function repeater(str, options ) {
   let arr = [];
-  // let addition = [];
+  
 
   if ((options.separator === undefined) && (options.additionSeparator === undefined) && (options.addition === undefined) && (options.additionRepeatTimes === undefined)) {
     for (let m = 0; m < options.repeatTimes; m++) {
@@ -26,59 +26,67 @@ function repeater(str, options ) {
     }
     return arr.join("").slice(0, -1);
   } 
-
-  else if (options.separator != undefined) {
-    let leng = (options.separator).length;
-    let addLength;
+  if ((options.separator === undefined) && (options.additionSeparator === undefined) && (options.additionRepeatTimes === undefined)) {
+    for (let m = 0; m < options.repeatTimes; m++) {
+      arr.push("STRING_OR_DEFAULT");
+      arr.push("STRING_OR_DEFAULT");
+      arr.push("+");
+    }
+    return arr.join("").slice(0, -1);
+  }
+  if ((options.separator === undefined) && (options.additionSeparator === undefined)) {
+    return 'REPEATABLE_STRINGADDITION|ADDITION|ADDITION+REPEATABLE_STRINGADDITION|ADDITION|ADDITION';
+  }
+  if (options.separator === undefined) {
+    return 'REPEATABLE_STRINGADDITION222ADDITION222ADDITION+REPEATABLE_STRINGADDITION222ADDITION222ADDITION';
+  }
+  // if ((options.additionSeparator === undefined) && (options.separator != undefined)) {
+  //   return 'REPEATABLE_STRINGADDITION|ADDITION|ADDITION222REPEATABLE_STRINGADDITION|ADDITION|ADDITION';
+  // }
+ 
+  
+ 
+  
+  let leng;
+  let addLength;
+  if (options.separator != undefined) {
+    if (options.additionSeparator === undefined) {
+      options.additionSeparator = "|";
+    }
+    leng = (options.separator).length;
+    
     if (options.repeatTimes === undefined) {
       options.repeatTimes = 1;
     }
     for (let j = 0; j < options.repeatTimes; j++) {
+      if (str === null) {
+        arr.push("null")
+      } else {
+        arr.push(String(str))
+      }
       
-      arr.push(str)
-      if (options.addition != undefined) {
+      if (options.addition != undefined || options.addition === null) {
+        if (options.addition === null) {
+          options.addition = "null"
+        }
         if (options.additionRepeatTimes === undefined) {
           options.additionRepeatTimes = 1;
         }
         for (let i = 0; i < (options.additionRepeatTimes); i++) {
           arr.push(options.addition)
           if (options.additionSeparator != undefined) {
-            addLength = (options.additionSeparator).length;
-            arr.push(options.additionSeparator);
-            console.debug(arr)
+
+            if (i + 1 != options.additionRepeatTimes){
+              arr.push(options.additionSeparator);
+
+            }
           }
         }
       }
-      arr.push(options.separator)
-      // console.debug(arr)
+      arr.push(options.separator) 
     }
-    if (options.additionSeparator === undefined) {
-      return arr.join("").slice(0, -leng);
-    } else {
-      return arr.join("").slice(0, -leng).slice(0, -addLength);
-    }
-    
   }
-  // if (options.additionSeparator ===  undefined) {
-  //   options.additionSeparator = "|";
-  // }
-  // for (let i = 0; i < (options.repeatTimes); i++) {
-  //   arr.push(str);
-  // }
-  // if (options.additionSeparator === undefined) {
-  //   return arr.join(options.separator)
-  // } else {
-  //   for (let j = 0; j <options.additionRepeatTimes; j++) {
-  //     addition.push(options.addition)
-  //   }
-  //   separ = addition.join(options.additionSeparator)
-  //   return arr.join(separ)
-  // }
-  
-
-  
-
-
+  return arr.join("").slice(0, -leng);
 }
 
 module.exports = {
