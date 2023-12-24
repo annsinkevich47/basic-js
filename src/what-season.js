@@ -12,39 +12,23 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function getSeason(date)  {
-  let year = date.getFullYear();
-  let month = date.getMonth();
-  let dateN = date.getDate();
-  let hours = date.getHours();
-  let minute = date.getMinutes();
-  let sec = date.getSeconds();
-  let milSec = date.getMilliseconds();
-  let newDate = new Date(year, month, dateN, hours, minute, sec, milSec);
-  // console.debug(newDate);
-  // if (newDate != date) {
-  //   throw new Error("Invalid date!")
-  // }
-
+  if (date === undefined) {
+    return "Unable to determine the time of year!"
+  }
+  if (Object.getOwnPropertyNames(date).length > 0) {
+    throw new Error("Invalid date!")
+  }
+  if (!(date instanceof Date )) {
+    throw new Error("Invalid date!")
+  }
   
   if (date.hasOwnProperty("getMonth")) {
     throw new Error("Invalid date!")
   }
-  if (!(date instanceof Date && !isNaN(date))) {
-    throw new Error("Invalid date!")
-  }
-  // if (date.getDay() == 0 && date.getHours() == 3) {
-  //   throw new Error("Invalid date!")
-  // }
- 
   const dateOfMonth = date.getMonth()
-  // console.debug(date)
-  const dateOfDay = date.getDay();
-  // console.debug(dateOfDay)
-  // console.debug(date.getHours())
   let months = ["winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "autumn (fall)", "autumn (fall)", "autumn (fall)", "winter"];
   let goalMonth = months[dateOfMonth]
   return goalMonth
-  
 }
 
 module.exports = {
