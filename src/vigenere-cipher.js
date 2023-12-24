@@ -58,9 +58,6 @@ class VigenereCipheringMachine {
         code += charA;
       }
     }
-     if(message === "attack at dawn!") {
-        console.debug(code.toUpperCase())
-      }
     if (this.bool === false) {
       return code.split("").reverse().join("").toUpperCase();
     } else {
